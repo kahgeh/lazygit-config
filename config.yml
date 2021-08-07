@@ -1,0 +1,9 @@
+keybinding:
+  commits:
+    moveDownCommit: '<f10>' # move commit down one
+    moveUpCommit: '<f11>' # move commit up one
+gui:
+  theme:
+    activeBorderColor:
+      - magenta 
+      - bold 
