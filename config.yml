@@ -6,4 +6,6 @@ gui:
   theme:
     activeBorderColor:
       - magenta 
-      - bold 
+      - bold
+os:
+  editCommand: 'vim'
