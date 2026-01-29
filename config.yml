@@ -1,0 +1,66 @@
+# Lazygit Configuration
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
+gui:
+  # Show file icons (requires nerd fonts)
+  showFileIcons: true
+  # Use border style that looks good in terminals
+  border: rounded
+  # Theme
+  theme:
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - white
+
+git:
+  paging:
+    colorArg: always
+    # Use delta for diffs if available
+    pager: delta --dark --paging=never
+
+os:
+  # Editor preset - lazygit will suspend and open nvim
+  editPreset: 'nvim'
+  # Override the open command (o) to:
+  # 1. Reveal file in yazi (pane 1) via shell command
+  # 2. Open file in nvim (pane 0)
+  # 3. Switch to nvim pane
+  open: 'ya emit-to $(tmux display-message -t 1 -p "#{pane_pid}") reveal "{{filename}}" && tmux send-keys -t 0 ":e {{filename}}" Enter && tmux select-pane -t 0'
+  # Override the openLink command for O to use macOS open
+  openLink: 'open {{link}}'
+
+# Keybindings - vim motions are already default, but we can customize
+keybinding:
+  universal:
+    # These are already defaults, listed for reference
+    nextItem: <down>
+    prevItem: <up>
+    nextItem-alt: j
+    prevItem-alt: k
+    prevBlock: <left>
+    nextBlock: <right>
+    prevBlock-alt: h
+    nextBlock-alt: l
+    scrollLeft: H
+    scrollRight: L
+    scrollUpMain: <pgup>
+    scrollDownMain: <pgdown>
+    scrollUpMain-alt1: <c-u>
+    scrollDownMain-alt1: <c-d>
+    gotoTop: <
+    gotoBottom: ">"
+
+# Custom commands for tmux integration
+customCommands:
+  # Open file with macOS open (system default app)
+  - key: 'O'
+    context: 'files'
+    command: 'open "$(git rev-parse --show-toplevel)/{{.SelectedFile.Name}}"'
+    description: 'Open with system default app'
+
+  - key: 'O'
+    context: 'commitFiles'
+    command: 'open "$(git rev-parse --show-toplevel)/{{.SelectedCommitFile.Name}}"'
+    description: 'Open with system default app'
