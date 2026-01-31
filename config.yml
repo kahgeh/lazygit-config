@@ -64,3 +64,29 @@ customCommands:
     context: 'commitFiles'
     command: 'open "$(git rev-parse --show-toplevel)/{{.SelectedCommitFile.Name}}"'
     description: 'Open with system default app'
+
+  # Copy paths (matching yazi keybindings)
+  - key: 'Y'
+    context: 'files'
+    prompts:
+      - type: 'menu'
+        title: 'Copy path'
+        options:
+          - name: 'relative'
+            value: 'relative'
+            description: 'Copy relative path'
+          - name: 'absolute'
+            value: 'absolute'
+            description: 'Copy absolute path'
+          - name: 'filename'
+            value: 'filename'
+            description: 'Copy filename only'
+    command: |
+      {{if eq (index .PromptResponses 0) "relative"}}
+        echo -n "{{.SelectedFile.Name}}" | pbcopy
+      {{else if eq (index .PromptResponses 0) "absolute"}}
+        echo -n "$(git rev-parse --show-toplevel)/{{.SelectedFile.Name}}" | pbcopy
+      {{else}}
+        echo -n "$(basename "{{.SelectedFile.Name}}")" | pbcopy
+      {{end}}
+    description: 'Copy path to clipboard'
