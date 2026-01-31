@@ -13,13 +13,11 @@ gui:
       - bold
     inactiveBorderColor:
       - white
-
 git:
-  paging:
-    colorArg: always
-    # Use delta for diffs if available
-    pager: delta --dark --paging=never
-
+  pagers:
+    - colorArg: always
+      # Use delta for diffs if available
+      pager: delta --dark --paging=never
 os:
   # Editor preset - lazygit will suspend and open nvim
   editPreset: 'nvim'
@@ -30,7 +28,6 @@ os:
   open: 'ya emit-to $(tmux display-message -t 1 -p "#{pane_pid}") reveal "{{filename}}" && tmux send-keys -t 0 ":e {{filename}}" Enter && tmux select-pane -t 0'
   # Override the openLink command for O to use macOS open
   openLink: 'open {{link}}'
-
 # Keybindings - vim motions are already default, but we can customize
 keybinding:
   universal:
@@ -51,7 +48,6 @@ keybinding:
     scrollDownMain-alt1: <c-d>
     gotoTop: <
     gotoBottom: ">"
-
 # Custom commands for tmux integration
 customCommands:
   # Open file with macOS open (system default app)
@@ -59,12 +55,10 @@ customCommands:
     context: 'files'
     command: 'open "$(git rev-parse --show-toplevel)/{{.SelectedFile.Name}}"'
     description: 'Open with system default app'
-
   - key: 'O'
     context: 'commitFiles'
     command: 'open "$(git rev-parse --show-toplevel)/{{.SelectedCommitFile.Name}}"'
     description: 'Open with system default app'
-
   # Copy paths (matching yazi keybindings)
   - key: 'Y'
     context: 'files'
@@ -75,12 +69,15 @@ customCommands:
           - name: 'relative'
             value: 'relative'
             description: 'Copy relative path'
+            key: 'r'
           - name: 'absolute'
             value: 'absolute'
             description: 'Copy absolute path'
+            key: 'a'
           - name: 'filename'
             value: 'filename'
             description: 'Copy filename only'
+            key: 'n'
     command: |
       {{if eq (index .PromptResponses 0) "relative"}}
         echo -n "{{.SelectedFile.Name}}" | pbcopy
